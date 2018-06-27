@@ -55,7 +55,7 @@ i为32位无符号整数；
 1. a[0:31]=h0(x);   
 2. i从0到|M|/32-1循环   //如果|M|为1M，循环2^15次  
 2.1 如果i mod K ≠0      //K是一个可以选择的参数，用于调整产生速度  
-2.1.1   	b[0 : 7] = rand0()*xor*(rand0()<<16);   
+2.1.1   	<img src="https://latex.codecogs.com/gif.latex?b[0&space;:&space;7]&space;=&space;rand_{0}()\oplus&space;(rand_{0}()<<16)" title="b[0 : 7] = rand_{0}()\oplus (rand_{0}()<<16)" />;   
 2.1.2   	b[8 :15] = rand1()*xor*(rand1()<<16);   
 2.1.3   	b[16:23]= rand2()*xor*(rand2()<<16);   
 2.1.4   	b[24:31]= rand3()*xor*(rand3()<<16);  
