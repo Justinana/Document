@@ -55,19 +55,30 @@ $i$为32位无符号整数；
 1. $a[0:31]=h_0(x); $  
 2. $i&从0到$|M|/32-1$循环   //如果$|M|为1M$，循环$2^15$次  
 2.1 如果$i mod K ≠0 $     //$K$是一个可以选择的参数，用于调整产生速度  
-2.1.1   	$b[0 : 7] = rand_0()\oplus	(rand_0()<<16);$  
-2.1.2   	$b[8 :15] = rand1()*xor*(rand1()<<16);$   
-2.1.3   	$b[16:23]= rand2()*xor*(rand2()<<16);$     
-2.1.4   	$b[24:31]= rand3()*xor*(rand3()<<16);$    
+2.1.1   	$b[0 : 7] = rand_0()\oplus	(rand_0()<<16);$  
+
+2.1.2   	$b[8 :15] = rand1()*xor*(rand1()<<16);$  
+
+2.1.3   	$b[16:23]= rand2()*xor*(rand2()<<16);$  
+
+2.1.4   	$b[24:31]= rand3()*xor*(rand3()<<16);$  
+
 2.1.5  	$b[0 : 31]= RRS(b[0:31], reduce_bit(i,8));$  
+
 2.1.6  	$M[32*i:32*i+31]=b[0:31];$  
-2.1.7   	$a[0:31]= a[0:31] *xor* b[0: 31]; $ 
+
+2.1.7   	$a[0:31]= a[0:31] *xor* b[0: 31]; $  
+
 2.2 否则  
-2.2.1   	$t=reduce_bit(a[0:31],4);$    
-2.2.2   	$a[0:31]=ht(RRS(a[0:31], reduce_bit(i,8)));$    
-2.2.3   	$seed0(reduce_bit(a[ 0: 7],48)); 	seed1(reduce_bit(a[ 8:15],48));$   
-$seed2(reduce_bit(a[16:23],48)); 	seed3(reduce_bit(a[24:31],48));$    
-2.2.4   $M[32*i:32*i+31]= a[0:31];$    
+2.2.1   	$t=reduce_bit(a[0:31],4);$  
+
+2.2.2   	$a[0:31]=ht(RRS(a[0:31], reduce_bit(i,8)));$  
+
+2.2.3   	$seed0(reduce_bit(a[ 0: 7],48)); 	seed1(reduce_bit(a[ 8:15],48));$  
+
+$seed2(reduce_bit(a[16:23],48)); 	seed3(reduce_bit(a[24:31],48));$  
+
+2.2.4   $M[32*i:32*i+31]= a[0:31];$      
 
 **算法说明**  
 
@@ -94,15 +105,18 @@ $seed2(reduce_bit(a[16:23],48)); 	seed3(reduce_bit(a[24:31],48));$
 2. $i$从0到$C$次循环      	
 2.1   $seed(reduce_bit(a[0:31], 48));$ 		//初始化随机数发生器  
 2.2   j从0到64*L-1循环				//修改存储器内容，并产生新的散列函数输入  
-2.2.1    base=(rand()+r) mod 2^64; offset= (reduce_bit(r,8)<<8)+1;   		//产生随机地址  
-2.2.2    addr1=(base-offset) mod |M|; addr2=(base+offset) mod |M|  
-2.2.3    t1=M[addr1];		t2=M[addr2];  	s=a[j mod 32];  
-2.2.4    M[addr1]= t2 *xor* s;  	M[addr2]= t1 *xor* s; 	b[j mod 64]=t1 *xor* t2;		//修改工作存储器  
-2.2.5    r=(r+s+t1+t2) mod 2^64;					
-2.3   t=reduce_bit(r,4);
-2.4   a[0:31]=reduce_bit(b[0:63], 256);
-2.5   a[0:31]=ht(RRS(a[0:31], reduce_bit(i+r,8)));
-2.6   c[0:31]=c[0:31] *xor* a[0:31]
+2.2.1    $base=(rand()+r) mod 2^64; offset= (reduce_bit(r,8)<<8)+1;$   		//产生随机地址  
+2.2.2    $addr1=(base-offset) mod |M|; addr2=(base+offset) mod |M| $ 
+2.2.3    $t1=M[addr1];		t2=M[addr2];  	s=a[j mod 32];$  
+2.2.4    $M[addr1]= t2 *xor* s;  	M[addr2]= t1 *xor* s; 	b[j mod 64]=t1 *xor* t2;$		//修改工作存储器  
+2.2.5    $r=(r+s+t1+t2) mod 2^64;$					
+2.3   $t=reduce_bit(r,4);$  
+
+2.4   $a[0:31]=reduce_bit(b[0:63], 256);$  
+
+2.5   $a[0:31]=ht(RRS(a[0:31], reduce_bit(i+r,8)));$  
+
+2.6   $c[0:31]=c[0:31] *xor* a[0:31]$    
  
 **算法说明**  
 
